@@ -14,10 +14,9 @@ abstract class FindAllUseCase<
   O buildOutput(List<E> foundedEntities, O output);
 
   Future<O> findAll(I input, O output) async {
-    List<E>? foundedEntities = (await repository.findAll());
+    List<E> foundedEntities = (await repository.findAll());
 
-    if (foundedEntities == null || foundedEntities.isEmpty)
-      throw NoEntityFoundDomainException();
+    if (foundedEntities.isEmpty) throw NoEntityFoundDomainException();
 
     if (foundedEntities.any(_isInvalidFoundEntity))
       throw EntityImplementationError.theseEntities(

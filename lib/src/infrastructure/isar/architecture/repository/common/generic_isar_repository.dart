@@ -29,7 +29,7 @@ abstract class GenericIsarEntityRepository<ID extends Identifier,
   }
 
   @override
-  Future<List<E>?> findAll() async {
+  Future<List<E>> findAll() async {
     List<M> models = (await collection.where().findAll());
     return models.map(modelToEntity).toList();
   }
