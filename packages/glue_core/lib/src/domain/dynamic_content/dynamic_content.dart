@@ -12,6 +12,6 @@ class DynamicContent implements ValueObject {
 
   @override
   ValidationOutput validate({ValidationInput? input}) {
-    return ValidationOutput(utilizedObject: this, input: input);
+    return ValidationOutput(object: this, input: input);
   }
 }

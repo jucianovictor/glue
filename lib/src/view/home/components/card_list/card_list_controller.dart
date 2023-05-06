@@ -4,6 +4,10 @@ import 'package:glue_core/glue_core.dart';
 class CardListController extends ChangeNotifier {
   List<Card> cards = [];
 
+  //final FindAllCardsUseCase useCase;
+
+  //CardListController({required this.useCase});
+
   // static final Card defaultCard = () {
   //   Alternative correctAlternative =
   //       Alternative(id: UUID.generate(), value: '2');
@@ -27,6 +31,7 @@ class CardListController extends ChangeNotifier {
 
   Future<void> fetchCards() async {
     cards = [];
+    //cards = await useCase;
     notifyListeners();
   }
 }

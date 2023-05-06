@@ -15,7 +15,7 @@ class ValidableObjectMock implements Validable {
 
   @override
   ValidationOutput validate({ValidationInput? input}) =>
-      ValidationOutput(utilizedObject: this, input: input)
+      ValidationOutput(object: this, input: input)
         ..addErrorIf(shouldTriggerError != null && shouldTriggerError!,
             ApplicationError(message: 'test error'))
         ..addExceptionIf(

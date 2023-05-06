@@ -1,5 +1,5 @@
 import 'package:glue/src/infrastructure/isar/architecture/model/isar_model.dart';
-import 'package:glue/src/infrastructure/isar/isar_datasource_connection.dart';
+import 'package:glue/src/infrastructure/isar/architecture/connection/isar_datasource_connection.dart';
 import 'package:glue_core/glue_core.dart';
 import 'package:isar/isar.dart';
 

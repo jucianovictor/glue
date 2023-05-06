@@ -8,82 +8,84 @@ void main() {
   late ValidableObjectMock b;
   late ValidableObjectMock c;
 
-  setUp(() {
-    a = ValidableObjectMock();
-    b = ValidableObjectMock();
-    c = ValidableObjectMock();
-  });
+  group('ValidationOutput', () {
+    setUp(() {
+      a = ValidableObjectMock();
+      b = ValidableObjectMock();
+      c = ValidableObjectMock();
+    });
 
-  test('should not break when there is cyclic reference', () {
-    c
-      ..nestedObject = a
-      ..willValidateNestedObject();
+    test('should not break when there is cyclic reference', () {
+      c
+        ..nestedObject = a
+        ..willValidateNestedObject();
 
-    b
-      ..nestedObject = c
-      ..willValidateNestedObject();
+      b
+        ..nestedObject = c
+        ..willValidateNestedObject();
 
-    a
-      ..nestedObject = b
-      ..willValidateNestedObject();
+      a
+        ..nestedObject = b
+        ..willValidateNestedObject();
 
-    ValidationOutput shouldBeValidAResult = a.validate();
-    ValidationOutput shouldBeValidCResult = c.validate();
-    expect(shouldBeValidAResult.isValid, true);
-    expect(shouldBeValidCResult.isValid, true);
+      ValidationOutput shouldBeValidAResult = a.validate();
+      ValidationOutput shouldBeValidCResult = c.validate();
+      expect(shouldBeValidAResult.isValid, true);
+      expect(shouldBeValidCResult.isValid, true);
 
-    b.willTriggerException();
+      b.willTriggerException();
 
-    ValidationOutput shouldBeInvalidAResult = a.validate();
-    ValidationOutput shouldBeInvalidCResult = c.validate();
-    expect(shouldBeInvalidAResult.isInvalid, true);
-    expect(shouldBeInvalidAResult.exceptions.length, 1);
-    expect(shouldBeInvalidCResult.isInvalid, true);
-    expect(shouldBeInvalidCResult.exceptions.length, 1);
-  });
+      ValidationOutput shouldBeInvalidAResult = a.validate();
+      ValidationOutput shouldBeInvalidCResult = c.validate();
+      expect(shouldBeInvalidAResult.isInvalid, true);
+      expect(shouldBeInvalidAResult.exceptions.length, 1);
+      expect(shouldBeInvalidCResult.isInvalid, true);
+      expect(shouldBeInvalidCResult.exceptions.length, 1);
+    });
 
-  test('should mark as invalid', () {
-    a = ValidableObjectMock();
-    a.willTriggerException();
+    test('should mark as invalid', () {
+      a = ValidableObjectMock();
+      a.willTriggerException();
 
-    ValidationOutput outputA = a.validate();
+      ValidationOutput outputA = a.validate();
 
-    expect(outputA.isInvalid, true);
-  });
+      expect(outputA.isInvalid, true);
+    });
 
-  test('should mark as valid', () {
-    a = ValidableObjectMock();
+    test('should mark as valid', () {
+      a = ValidableObjectMock();
 
-    ValidationOutput outputA = a.validate();
+      ValidationOutput outputA = a.validate();
 
-    expect(outputA.isValid, true);
-  });
+      expect(outputA.isValid, true);
+    });
 
-  test('should get all errors and exceptions', () {
-    a = ValidableObjectMock();
-    b = ValidableObjectMock();
-    c = ValidableObjectMock();
+    test('should get all errors and exceptions', () {
+      a = ValidableObjectMock();
+      b = ValidableObjectMock();
+      c = ValidableObjectMock();
 
-    c
-      ..nestedObject = a
-      ..willTriggerException()
-      ..willValidateNestedObject();
+      c
+        ..nestedObject = a
+        ..willTriggerException()
+        ..willValidateNestedObject();
 
-    b
-      ..nestedObject = c
-      ..willTriggerError()
-      ..willTriggerException()
-      ..willValidateNestedObject();
+      b
+        ..nestedObject = c
+        ..willTriggerError()
+        ..willTriggerException()
+        ..willValidateNestedObject();
 
-    a
-      ..nestedObject = b
-      ..willTriggerException()
-      ..willValidateNestedObject();
+      a
+        ..nestedObject = b
+        ..willTriggerException()
+        ..willValidateNestedObject();
 
-    ValidationOutput outputA = a.validate();
+      ValidationOutput outputA = a.validate();
 
-    expect(outputA.isInvalid, true);
-    expect(outputA.errors.length, 1);
-    expect(outputA.exceptions.length, 3);
+      expect(outputA.isInvalid, true);
+      expect(outputA.errors.length, 1);
+      expect(outputA.exceptions.length, 3);
+    });
   });
 }

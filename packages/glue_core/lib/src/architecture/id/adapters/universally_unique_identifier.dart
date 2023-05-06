@@ -17,6 +17,6 @@ class UUID implements Identifier<String> {
 
   @override
   ValidationOutput validate({ValidationInput? input}) =>
-      ValidationOutput(utilizedObject: this, input: input)
+      ValidationOutput(object: this, input: input)
         ..addIfThrow(() => Uuid.isValidOrThrow(fromString: _uuid));
 }

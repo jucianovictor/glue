@@ -1,7 +1,7 @@
 part of glue_core;
 
 class ValidationOutput {
-  final Validable _utilizedObject;
+  final Validable _object;
 
   final List<ApplicationException> onlySuperficialExceptions = [];
   final List<ApplicationError> onlySuperficialErrors = [];
@@ -11,14 +11,14 @@ class ValidationOutput {
   final Map<int, ValidationOutput> _validationOutputsByDepth = {};
   final int _currentDepth;
 
-  ValidationOutput({required Validable utilizedObject, ValidationInput? input})
-      : _utilizedObject = utilizedObject,
+  ValidationOutput({required Validable object, ValidationInput? input})
+      : _object = object,
         _currentDepth = input?.parentValidationOutput?._currentDepth != null
             ? input!.parentValidationOutput!._currentDepth + 1
             : 0,
         _objectsReferenceInValidation =
             input?.parentValidationOutput?._objectsReferenceInValidation ??
-                <int>{utilizedObject.hashCode} {
+                <int>{object.hashCode} {
     _validationOutputsByDepth[0] = this;
   }
 
@@ -66,8 +66,8 @@ class ValidationOutput {
   }
 
   void validateAsEntity() {
-    if (_utilizedObject is Entity)
-      _validateEntity(_utilizedObject as Entity);
+    if (_object is Entity)
+      _validateEntity(_object as Entity);
     else
       onlySuperficialErrors.add(ImplementationError(
           message:

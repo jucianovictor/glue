@@ -29,6 +29,7 @@ part 'src/architecture/id/identifier.dart';
 // Architecture - Identifier - Adapters
 part 'src/architecture/id/adapters/int_identifier.dart';
 part 'src/architecture/id/adapters/universally_unique_identifier.dart';
+part 'src/architecture/id/adapters/uuid_int_identifier.dart';
 
 // Architecture - Misc
 part 'src/architecture/misc/labelable.dart';
@@ -46,10 +47,13 @@ part 'src/architecture/repository/common/generic_repository.dart';
 // Architecture - Repository - Operation
 part 'src/architecture/repository/operation/count_repository.dart';
 part 'src/architecture/repository/operation/delete_by_id_repository.dart';
+part 'src/architecture/repository/operation/delete_by_ids_repository.dart';
 part 'src/architecture/repository/operation/find_all_repository.dart';
 part 'src/architecture/repository/operation/find_all_by_ids_repository.dart';
 part 'src/architecture/repository/operation/find_by_id_repository.dart';
 part 'src/architecture/repository/operation/save_repository.dart';
+part 'src/architecture/repository/operation/save_all_repository.dart';
+part 'src/architecture/repository/operation/entity_model_repository.dart';
 
 // Architecture - UseCase
 part 'src/architecture/use_case/use_case.dart';
@@ -74,6 +78,7 @@ part 'src/architecture/use_case/common/operation/update_use_case.dart';
 
 // Architecture - Util
 part 'src/architecture/util/indirection.dart';
+part 'src/architecture/util/pair.dart';
 
 // Architecture - Util - Logger
 part 'src/architecture/util/logger/logger.dart';
@@ -131,16 +136,17 @@ part 'src/domain/block/repository/block_repository.dart';
 // Domain - Card
 part 'src/domain/card/card.dart';
 
-// Domain - Card - Answer
-part 'src/domain/card/aggregate/answer_form/answer_form.dart';
-part 'src/domain/card/aggregate/answer_form/answer_form_type.dart';
-
-// Domain - Card - Answer - Repository
-part 'src/domain/card/aggregate/answer_form/repository/answer_form_repository.dart';
+// Domain - Card - AnswerInterface
+part 'src/domain/card/aggregate/answer_interface/answer_interface.dart';
+part 'src/domain/card/aggregate/answer_interface/answer_interface_type.dart';
 
 // Domain - Card - Alternative
-part 'src/domain/card/aggregate/answer_form/impl/alternatives/alternatives.dart';
-part 'src/domain/card/aggregate/answer_form/impl/alternatives/alternative.dart';
+part 'src/domain/card/aggregate/answer_interface/specification/alternatives/alternatives_interface.dart';
+part 'src/domain/card/aggregate/answer_interface/specification/alternatives/alternative.dart';
+
+// Domain - Card - AnswerInterface - Alternative - Repository
+part 'src/domain/card/aggregate/answer_interface/specification/alternatives/repository/alternatives_interface_repository.dart';
+part 'src/domain/card/aggregate/answer_interface/specification/alternatives/repository/alternative_repository.dart';
 
 // Domain - Card - Repository
 part 'src/domain/card/repository/card_repository.dart';

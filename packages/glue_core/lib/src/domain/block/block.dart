@@ -13,6 +13,6 @@ class Block implements Entity<IntID> {
 
   @override
   ValidationOutput validate({ValidationInput? input}) {
-    return ValidationOutput(utilizedObject: this, input: input);
+    return ValidationOutput(object: this, input: input);
   }
 }

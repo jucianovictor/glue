@@ -16,7 +16,7 @@ class EntityMock extends ValidableObjectMock implements Entity<Identifier> {
 
   @override
   ValidationOutput validate({ValidationInput? input}) =>
-      ValidationOutput(utilizedObject: this, input: input)
+      ValidationOutput(object: this, input: input)
         ..validateAsEntity()
         ..addErrorIf(shouldTriggerError != null && shouldTriggerError!,
             ApplicationError(message: 'test error'))

@@ -1,4 +1,4 @@
 part of glue_core;
 
-abstract class BlockRepository<DS extends Datasource>
-    extends GenericEntityRepository<IntID, Block, DS> {}
+abstract class BlockRepository<Model extends dynamic, DS extends Datasource>
+    implements GenericEntityRepository<int, IntID, Block, Model, DS> {}

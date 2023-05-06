@@ -13,7 +13,7 @@ class IntID implements Identifier<int> {
 
   @override
   ValidationOutput validate({ValidationInput? input}) =>
-      ValidationOutput(utilizedObject: this, input: input)
+      ValidationOutput(object: this, input: input)
         ..addErrorIf(_id < 1,
             RangeError.value(value, 'id', 'The id must be greater than 0'));
 }

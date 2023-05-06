@@ -4,11 +4,11 @@ import 'package:glue/src/infrastructure/isar/isar_datasource.dart';
 import 'package:glue_core/glue_core.dart';
 import 'package:isar/isar.dart';
 
-abstract class GenericIsarEntityRepository<ID extends Identifier,
+abstract class GenericIsarEntityRepository<ID extends Identifier<int>,
         E extends Entity<ID>, M extends IsarModel>
     implements
-        IsarEntityRepository<ID, E, M>,
-        GenericEntityRepository<ID, E, IsarDatasource> {
+        IsarEntityRepository<int, ID, E, M>,
+        GenericEntityRepository<int, ID, E, M, IsarDatasource> {
   @override
   IsarDatasource datasource;
   late IsarCollection<M> collection;
@@ -23,9 +23,15 @@ abstract class GenericIsarEntityRepository<ID extends Identifier,
   }
 
   @override
-  Future<void> deleteById(Identifier id) async {
+  Future<void> deleteById(ID id) async {
     return this.datasource.asyncReadAndWriteTransaction(
-        () => collection.delete(idFromIdentifier(id)));
+        () => collection.delete(fromIdentifier(id)));
+  }
+
+  @override
+  Future<void> deleteByIds(List<ID> ids) async {
+    return this.datasource.asyncReadAndWriteTransaction(
+        () => collection.deleteAll(ids.map(fromIdentifier).toList()));
   }
 
   @override
@@ -35,8 +41,8 @@ abstract class GenericIsarEntityRepository<ID extends Identifier,
   }
 
   @override
-  Future<E> findById(Identifier id) async {
-    M? model = await collection.get(idFromIdentifier(id));
+  Future<E> findById(ID id) async {
+    M? model = await collection.get(fromIdentifier(id));
 
     if (model == null) {
       throw EntityNotFoundRepositoryImplementationError.byId(
@@ -48,7 +54,7 @@ abstract class GenericIsarEntityRepository<ID extends Identifier,
 
   @override
   Future<List<E>> findByIds(List<ID> identifiers) async {
-    List<int> ids = identifiers.map(idFromIdentifier).toList();
+    List<int> ids = identifiers.map(fromIdentifier).toList();
     List<M?> models = await collection.getAll(ids);
 
     if (models.isEmpty || models.length != ids.length) {
@@ -63,16 +69,23 @@ abstract class GenericIsarEntityRepository<ID extends Identifier,
   Future<ID> save({required E entity}) async {
     int id = await datasource.asyncReadAndWriteTransaction<int>(
         () => collection.put(entityToModel(entity)));
-    return idToIdentifier(id);
+    return toIdentifier(id);
   }
 
   @override
-  int idFromIdentifier(Identifier id) {
+  Future<List<ID>> saveAll({required List<E> entities}) async {
+    List<int> ids = await datasource.asyncReadAndWriteTransaction<List<int>>(
+        () => collection.putAll(entities.map(entityToModel).toList()));
+    return ids.map(toIdentifier).toList();
+  }
+
+  @override
+  int fromIdentifier(ID id) {
     return (id as IntID).value;
   }
 
   @override
-  ID idToIdentifier(int id) {
+  ID toIdentifier(int id) {
     return IntID(id) as ID;
   }
 }
