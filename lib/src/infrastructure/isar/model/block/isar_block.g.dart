@@ -14,8 +14,8 @@ extension GetIsarBlockCollection on Isar {
 }
 
 const IsarBlockSchema = CollectionSchema(
-  name: r'Block',
-  id: -1408548915874355664,
+  name: r'block',
+  id: -1734677574407924573,
   properties: {
     r'jsonProps': PropertySchema(
       id: 0,

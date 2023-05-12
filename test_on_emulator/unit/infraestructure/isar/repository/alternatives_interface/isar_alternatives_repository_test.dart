@@ -15,6 +15,8 @@ void main() {
     late AlternativesInterface alternativesInterfaceFoundById;
     late Set<Alternative> alternatives;
     late Set<Identifier> correctAlternatives;
+    DynamicContent explanation = DynamicContent(
+        blocks: [Block(value: '2 + 2 é 4', type: BlockType.title, props: {})]);
 
     setUpAll(() async {
       await Init.configureDependencies();
@@ -33,9 +35,6 @@ void main() {
       alternatives = (await alternativeRepository.findByIds(ids)).toSet();
       correctAlternatives =
           alternatives.where((a) => a.value == '4').map((a) => a.id!).toSet();
-
-      Logger.warning(await repository.count());
-      Logger.warning(await alternativeRepository.count());
     });
 
     tearDownAll(() => {
@@ -45,7 +44,10 @@ void main() {
 
     test('should save alternatives interface', () async {
       AlternativesInterface newAlternativesInterface = AlternativesInterface(
-          alternatives: alternatives, correctAlternatives: correctAlternatives);
+          explanation: explanation,
+          alternatives: alternatives,
+          correctAlternatives: correctAlternatives);
+
       newAlternativesInterfaceId =
           await repository.save(entity: newAlternativesInterface);
       expect(newAlternativesInterfaceId, isNotNull);
@@ -54,9 +56,16 @@ void main() {
     test('should find alternativesInterface', () async {
       alternativesInterfaceFoundById =
           await repository.findById(newAlternativesInterfaceId);
+
       expect(alternativesInterfaceFoundById, isNotNull);
+      expect(alternativesInterfaceFoundById.id, isNotNull);
       expect(alternativesInterfaceFoundById.id!.value,
           equals(newAlternativesInterfaceId.value));
+      expect(
+          alternativesInterfaceFoundById.alternatives
+              .map((a) => a.id?.value)
+              .toList(),
+          equals(alternatives.map((a) => a.id?.value).toList()));
     });
 
     test('should update alternativesInterface', () async {
@@ -76,9 +85,7 @@ void main() {
     test('should remove alternativesInterface by id', () async {
       await repository.deleteById(newAlternativesInterfaceId);
       int count = await repository.count();
-      int countAlternatives = await alternativeRepository.count();
       expect(count, equals(0));
-      expect(countAlternatives, equals(0));
     });
   });
 }

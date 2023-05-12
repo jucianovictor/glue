@@ -15,4 +15,12 @@ abstract class AnswerInterface implements AuditableEntity<IntID> {
   late AnswerInterfaceType type;
   late DynamicContent explanation;
   bool? get isCorrect;
+
+  AnswerInterface(
+      {this.id, this.updatedAt, this.createdAt, required this.explanation});
+
+  @override
+  ValidationOutput validate({ValidationInput? input}) {
+    return ValidationOutput(object: this, input: input);
+  }
 }

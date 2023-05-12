@@ -38,7 +38,7 @@ const IsarCardSchema = CollectionSchema(
     r'blocks': LinkSchema(
       id: -4904199808627151370,
       name: r'blocks',
-      target: r'Block',
+      target: r'block',
       single: false,
     ),
     r'alternativesInterface': LinkSchema(

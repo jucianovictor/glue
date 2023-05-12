@@ -6,7 +6,7 @@ import 'package:glue_core/glue_core.dart';
 part 'isar_block.g.dart';
 
 @collection
-@Name('Block')
+@Name('block')
 class IsarBlock implements IsarModel {
   @override
   Id? id;

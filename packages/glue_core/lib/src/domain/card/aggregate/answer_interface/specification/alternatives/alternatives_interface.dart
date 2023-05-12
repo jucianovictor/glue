@@ -6,7 +6,12 @@ class AlternativesInterface extends AnswerInterface {
   Set<Identifier>? selectedAlternatives;
 
   AlternativesInterface(
-      {required this.alternatives, required this.correctAlternatives});
+      {super.id,
+      required this.alternatives,
+      required this.correctAlternatives,
+      required super.explanation,
+      super.createdAt,
+      super.updatedAt});
 
   void selectAlternatives(Set<Identifier> alternatives) {
     selectedAlternatives = alternatives;

@@ -35,6 +35,15 @@ class IsarDatasource implements Datasource {
     }));
   }
 
+  T syncReadAndWriteTransaction<T>(T Function() callback) {
+    return _connection.isar.writeTxnSync(() {
+      Logger.info('Start transaction');
+      T output = callback();
+      Logger.info('Commit transaction');
+      return output;
+    });
+  }
+
   @override
   String get type => 'Embedded Database';
 }

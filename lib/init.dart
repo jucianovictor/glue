@@ -46,7 +46,8 @@ class Init {
         () async => IsarAlternativesInterfaceRepository(
             datasource: await getIt.getAsync<IsarDatasource>(),
             alternativeRepository:
-                await getIt.getAsync<AlternativeRepository>()));
+                await getIt.getAsync<AlternativeRepository>(),
+            blockRepository: await getIt.getAsync<BlockRepository>()));
 
     await getIt.allReady();
   }

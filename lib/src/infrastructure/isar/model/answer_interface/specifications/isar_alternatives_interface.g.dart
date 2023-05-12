@@ -42,6 +42,12 @@ const IsarAlternativesInterfaceSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
+    r'explanation': LinkSchema(
+      id: -1911391776881695269,
+      name: r'explanation',
+      target: r'block',
+      single: false,
+    ),
     r'alternatives': LinkSchema(
       id: 6141856794745983601,
       name: r'alternatives',
@@ -134,12 +140,14 @@ Id _isarAlternativesInterfaceGetId(IsarAlternativesInterface object) {
 
 List<IsarLinkBase<dynamic>> _isarAlternativesInterfaceGetLinks(
     IsarAlternativesInterface object) {
-  return [object.alternatives, object.correctAlternatives];
+  return [object.explanation, object.alternatives, object.correctAlternatives];
 }
 
 void _isarAlternativesInterfaceAttach(
     IsarCollection<dynamic> col, Id id, IsarAlternativesInterface object) {
   object.id = id;
+  object.explanation
+      .attach(col, col.isar.collection<IsarBlock>(), r'explanation', id);
   object.alternatives
       .attach(col, col.isar.collection<IsarAlternative>(), r'alternatives', id);
   object.correctAlternatives.attach(
@@ -513,6 +521,67 @@ extension IsarAlternativesInterfaceQueryObject on QueryBuilder<
 
 extension IsarAlternativesInterfaceQueryLinks on QueryBuilder<
     IsarAlternativesInterface, IsarAlternativesInterface, QFilterCondition> {
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanation(FilterQuery<IsarBlock> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'explanation');
+    });
+  }
+
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanationLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'explanation', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanationIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'explanation', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanationIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'explanation', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanationLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'explanation', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanationLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'explanation', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
+      QAfterFilterCondition> explanationLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'explanation', lower, includeLower, upper, includeUpper);
+    });
+  }
+
   QueryBuilder<IsarAlternativesInterface, IsarAlternativesInterface,
       QAfterFilterCondition> alternatives(FilterQuery<IsarAlternative> q) {
     return QueryBuilder.apply(this, (query) {
